@@ -4,14 +4,59 @@
 
   <article class="{{post_class}}">
     <header>
-      <h1 id="post-title">About me</h1>
+      <div class="post meta">
+        <time datetime="{{date format="DD MMM YYYY"}}">{{date format="DD MMM YYYY"}}</time>
+        <span class="post tags">{{tags prefix="in " separator=" "}}</span>
+
+        {{!-- <span class="post author">
+          <img src="{{author.image}}" class="rounded" alt="profile image for {{author.name}}"/> by {{author.name}}
+        </span> --}}
+
+        <span class="post reading-time"> ~ <span></span> read.</span>
+      </div>
+
+      <a alt="Tweet '{{title}}'" rel="me"
+        href="javascript:window.open('http://twitter.com/share?hashtags={{tags separator="," autolink="false"}}&text={{title}} » ', '_blank', 'width=400,height=500');void(0);">
+        {{#if image}}<img id="post-image" src={{image}} alt="{{{title}}}">{{/if}}
+        <h1 class="icon-reverse icon-social-twitter-post" id="post-title">{{{title}}}</h1>
+      </a>
     </header>
 
-    <section class="{{post_class}}">
+    <div id="post-content" class="{{post_class}}">
       {{content}}
-    </section>
+    </div>
+
+    <div class="post related">
+      {{#prev_post}}
+        <a rel="prev" id="prev-btn" class="btn small square" href="{{url}}">← {{title}}</a>
+      {{/prev_post}}
+
+      {{#next_post}}
+        <a rel="next" id="next-btn" class="btn small square" href="{{url}}">{{title}} →</a>
+      {{/next_post}}
+    </div>
+
+    {{> comments}}
 
   </article>
 
-{{/post}}
+<!-- Snippet for Ghost Disqus integration-->
 
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'programmingshift';
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_identifier = '{{id}}';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+<!-- End Ghost Disqus Snippet-->
+
+{{/post}}
